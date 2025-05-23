@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<TargetFrameworks>net9.0;net8.0;net7.0;net6.0</TargetFrameworks>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Nullable>enable</Nullable>
+		<PackageId>Wren.NET</PackageId>
+		<Version>1.0.0</Version>
+		<Authors>Cody Tilkins</Authors>
+		<Copyright>Copyright © Cody Tilkins 2025</Copyright>
+		<Title>Wren.NET</Title>
+		<Product>Wren.NET</Product>
+		<PackageIcon>Wren.NET.Logo.png</PackageIcon>
+		<PackageIconUrl>...</PackageIconUrl>
+		<PackageTags>Wren</PackageTags>
+		<Description>Wren.NET contains full bindings to Wren</Description>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<RepositoryUrl>https://github.com/tilkinsc/Wren.NET</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<NoWarn>
+			CS8981, <!-- Only contains lowercase function names -->
+			IDE1006, <!-- Naming rule violation -->
+			CA1401, <!-- P/Invokes should not be visible -->
+			SYSLIB1054 <!-- Use LibraryImportAttribute instead of DllImportAttribute to generate p/invoke marshalling code at compile time -->
+		</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="README.md" Pack="true" PackagePath="\" />
+		<None Include="LICENSE" Pack="true" PackagePath="\" />
+		<None Include="Wren.NET.Logo.png" Pack="true" PackagePath="\" />
+		<Content Include="runtimes/win-x64/native/*" Pack="true" PackagePath="runtimes/win-x64/native" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+	
+</Project>
