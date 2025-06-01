@@ -104,7 +104,7 @@ public struct WrenForeignClassMethods
 	/// The callback invoked when the foreign object is created.
 	/// <para>
 	/// This must be provided. Inside the body of this, it must call
-	/// [wrenSetSlotNewForeign()] exactly once.
+	/// <c>wrenSetSlotNewForeign()</c> exactly once.
 	/// </para>
 	/// </summary>
 	public WrenForeignMethodFn allocate;
@@ -630,7 +630,7 @@ public static class Wren
 	/// Creates a handle for the value stored in <c>slot</c>.
 	/// <para>
 	/// This will prevent the object that is referred to from being garbage collected
-	/// until the handle is released by calling [wrenReleaseHandle()].
+	/// until the handle is released by calling <c>wrenReleaseHandle()</c>.
 	/// </para>
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
@@ -705,8 +705,8 @@ public static class Wren
 	/// <para>
 	/// The <c>text</c> is copied to a new string within Wren's heap, so you can free
 	/// memory used by it after this is called. The length is calculated using
-	/// [strlen()]. If the string may contain any null bytes in the middle, then you
-	/// should use [wrenSetSlotBytes()] instead.
+	/// <c>strlen()</c>. If the string may contain any null bytes in the middle, then you
+	/// should use <c>wrenSetSlotBytes()</c> instead.
 	/// </para>
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention, CharSet = CharSet.Ansi)]
