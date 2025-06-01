@@ -100,7 +100,22 @@ public enum WrenErrorType
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
 public struct WrenForeignClassMethods
 {
+	/// <summary>
+	/// The callback invoked when the foreign object is created.
+	/// <para>
+	/// This must be provided. Inside the body of this, it must call
+	/// [wrenSetSlotNewForeign()] exactly once.
+	/// </para>
+	/// </summary>
 	public WrenForeignMethodFn allocate;
+	
+	/// <summary>
+	/// The callback invoked when the garbage collector is about to collect a
+	/// foreign object's memory.
+	/// <para>
+	/// This may be `NULL` if the foreign class does not need to finalize.
+	/// </para>
+	/// </summary>
 	public WrenFinalizerFn finalize;
 }
 
@@ -520,7 +535,7 @@ public static class Wren
 	public static extern int wrenGetSlotCount(WrenVM vm);
 	
 	/// <summary>
-	/// Ensures that the foreign method stack has at least [numSlots] available for
+	/// Ensures that the foreign method stack has at least <c>numSlots</c> available for
 	/// use, growing the stack if needed.
 	/// <para>
 	/// Does not shrink the stack if it has more than enough slots.
@@ -533,13 +548,13 @@ public static class Wren
 	public static extern void wrenEnsureSlots(WrenVM vm, int numSlots);
 	
 	/// <summary>
-	/// Gets the type of the object in [slot].
+	/// Gets the type of the object in <c>slot</c>.
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
 	public static extern WrenType wrenGetSlotType(WrenVM vm, int slot);
 	
 	/// <summary>
-	/// Reads a boolean value from [slot].
+	/// Reads a boolean value from <c>slot</c>.
 	/// <para>
 	/// It is an error to call this if the slot does not contain a boolean value.
 	/// </para>
@@ -551,14 +566,14 @@ public static class Wren
 	private static extern nuint _wrenGetSlotBytes(WrenVM vm, int slot, ref int length);
 	
 	/// <summary>
-	/// Reads a byte array from [slot].
+	/// Reads a byte array from <c>slot</c>.
 	/// <para>
 	/// The memory for the returned string is owned by Wren. You can inspect it
 	/// while in your foreign method, but cannot keep a pointer to it after the
 	/// function returns, since the garbage collector may reclaim it.
 	/// </para>
 	/// <para>
-	/// Returns a pointer to the first byte of the array and fill [length] with the
+	/// Returns a pointer to the first byte of the array and fill <c>length</c> with the
 	/// number of bytes in the array.
 	/// </para>
 	/// <para>
@@ -573,7 +588,7 @@ public static class Wren
 	}
 	
 	/// <summary>
-	/// Reads a number from [slot].
+	/// Reads a number from <c>slot</c>.
 	/// <para>
 	/// It is an error to call this if the slot does not contain a number.
 	/// </para>
@@ -582,7 +597,7 @@ public static class Wren
 	public static extern double wrenGetSlotDouble(WrenVM vm, int slot);
 	
 	/// <summary>
-	/// Reads a foreign object from [slot] and returns a pointer to the foreign data
+	/// Reads a foreign object from <c>slot</c> and returns a pointer to the foreign data
 	/// stored with it.
 	/// <para>
 	/// It is an error to call this if the slot does not contain an instance of a
@@ -596,7 +611,7 @@ public static class Wren
 	private static extern nint _wrenGetSlotString(WrenVM vm, int slot);
 	
 	/// <summary>
-	/// Reads a string from [slot].
+	/// Reads a string from <c>slot</c>.
 	/// <para>
 	/// The memory for the returned string is owned by Wren. You can inspect it
 	/// while in your foreign method, but cannot keep a pointer to it after the
@@ -612,7 +627,7 @@ public static class Wren
 	}
 	
 	/// <summary>
-	/// Creates a handle for the value stored in [slot].
+	/// Creates a handle for the value stored in <c>slot</c>.
 	/// <para>
 	/// This will prevent the object that is referred to from being garbage collected
 	/// until the handle is released by calling [wrenReleaseHandle()].
@@ -622,7 +637,7 @@ public static class Wren
 	public static extern WrenHandle wrenGetSlotHandle(WrenVM vm, int slot);
 	
 	/// <summary>
-	/// Stores the boolean [value] in [slot].
+	/// Stores the boolean <c>value</c> in <c>slot</c>.
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
 	public static extern void wrenSetSlotBool(WrenVM vm, int slot, bool value);
@@ -631,7 +646,7 @@ public static class Wren
 	private static extern void _wrenSetSlotBytes(WrenVM vm, int slot, nuint bytes, size_t length);
 	
 	/// <summary>
-	/// Stores the array [length] of [bytes] in [slot].
+	/// Stores the array <c>length</c> of <c>bytes</c> in <c>slot</c>.
 	/// <para>
 	/// The bytes are copied to a new string within Wren's heap, so you can free
 	/// memory used by them after this is called.
@@ -646,14 +661,14 @@ public static class Wren
 	}
 	
 	/// <summary>
-	/// Stores the numeric [value] in [slot].
+	/// Stores the numeric <c>value</c> in <c>slot</c>.
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
 	public static extern void wrenSetSlotDouble(WrenVM vm, int slot, double value);
 	
 	/// <summary>
-	/// Creates a new instance of the foreign class stored in [classSlot] with [size]
-	/// bytes of raw storage and places the resulting object in [slot].
+	/// Creates a new instance of the foreign class stored in <c>classSlot</c> with <c>size</c>
+	/// bytes of raw storage and places the resulting object in <c>slot</c>.
 	/// <para>
 	/// This does not invoke the foreign class's constructor on the new instance. If
 	/// you need that to happen, call the constructor from Wren, which will then
@@ -668,27 +683,27 @@ public static class Wren
 	public static extern nuint wrenSetSlotNewForeign(WrenVM vm, int slot, int classSlot, size_t size);
 	
 	/// <summary>
-	/// Stores a new empty list in [slot].
+	/// Stores a new empty list in <c>slot</c>.
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
 	public static extern void wrenSetSlotNewList(WrenVM vm, int slot);
 	
 	/// <summary>
-	/// Stores a new empty map in [slot].
+	/// Stores a new empty map in <c>slot</c>.
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
 	public static extern void wrenSetSlotNewMap(WrenVM vm, int slot);
 	
 	/// <summary>
-	/// Stores null in [slot].
+	/// Stores null in <c>slot</c>.
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
 	public static extern void wrenSetSlotNull(WrenVM vm, int slot);
 	
 	/// <summary>
-	/// Stores the string [text] in [slot].
+	/// Stores the string <c>text</c> in <c>slot</c>.
 	/// <para>
-	/// The [text] is copied to a new string within Wren's heap, so you can free
+	/// The <c>text</c> is copied to a new string within Wren's heap, so you can free
 	/// memory used by it after this is called. The length is calculated using
 	/// [strlen()]. If the string may contain any null bytes in the middle, then you
 	/// should use [wrenSetSlotBytes()] instead.
@@ -698,7 +713,7 @@ public static class Wren
 	public static extern void wrenSetSlotString(WrenVM vm, int slot, string text);
 	
 	/// <summary>
-	/// Stores the value captured in [handle] in [slot].
+	/// Stores the value captured in <c>handle</c> in <c>slot</c>.
 	/// <para>
 	/// This does not release the handle for the value.
 	/// </para>
@@ -707,28 +722,28 @@ public static class Wren
 	public static extern void wrenSetSlotHandle(WrenVM vm, int slot, WrenHandle handle);
 	
 	/// <summary>
-	/// Returns the number of elements in the list stored in [slot].
+	/// Returns the number of elements in the list stored in <c>slot</c>.
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
 	public static extern int wrenGetListCount(WrenVM vm, int slot);
 	
 	/// <summary>
-	/// Reads element [index] from the list in [listSlot] and stores it in
-	/// [elementSlot].
+	/// Reads element <c>index</c> from the list in <c>listSlot</c> and stores it in
+	/// <c>elementSlot</c>.
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
 	public static extern void wrenGetListElement(WrenVM vm, int listSlot, int index, int elementSlot);
 	
 	/// <summary>
-	/// Sets the value stored at [index] in the list at [listSlot], 
-	/// to the value from [elementSlot]. 
+	/// Sets the value stored at <c>index</c> in the list at <c>listSlot</c>, 
+	/// to the value from <c>elementSlot</c>. 
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
 	public static extern void wrenSetListElement(WrenVM vm, int listSlot, int index, int elementSlot);
 	
 	/// <summary>
-	/// Takes the value stored at [elementSlot] and inserts it into the list stored
-	/// at [listSlot] at [index].
+	/// Takes the value stored at <c>elementSlot</c> and inserts it into the list stored
+	/// at <c>listSlot</c> at <c>index</c>.
 	/// <para>
 	/// As in Wren, negative indexes can be used to insert from the end. To append
 	/// an element, use `-1` for the index.
@@ -738,48 +753,48 @@ public static class Wren
 	public static extern void wrenInsertInList(WrenVM vm, int listSlot, int index, int elementSlot);
 	
 	/// <summary>
-	/// Returns the number of entries in the map stored in [slot].
+	/// Returns the number of entries in the map stored in <c>slot</c>.
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
 	public static extern int wrenGetMapCount(WrenVM vm, int slot);
 	
 	/// <summary>
-	/// Returns true if the key in [keySlot] is found in the map placed in [mapSlot].
+	/// Returns true if the key in <c>keySlot</c> is found in the map placed in <c>mapSlot</c>.
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
 	public static extern bool wrenGetMapContainsKey(WrenVM vm, int mapSlot, int keySlot);
 	
 	/// <summary>
-	/// Retrieves a value with the key in [keySlot] from the map in [mapSlot] and
-	/// stores it in [valueSlot].
+	/// Retrieves a value with the key in <c>keySlot</c> from the map in <c>mapSlot</c> and
+	/// stores it in <c>valueSlot</c>.
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
 	public static extern void wrenGetMapValue(WrenVM vm, int mapSlot, int keySlot, int valueSlot);
 	
 	/// <summary>
-	/// Takes the value stored at [valueSlot] and inserts it into the map stored
-	/// at [mapSlot] with key [keySlot].
+	/// Takes the value stored at <c>valueSlot</c> and inserts it into the map stored
+	/// at <c>mapSlot</c> with key <c>keySlot</c>.
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
 	public static extern void wrenSetMapValue(WrenVM vm, int mapSlot, int keySlot, int valueSlot);
 	
 	/// <summary>
-	/// Removes a value from the map in [mapSlot], with the key from [keySlot],
-	/// and place it in [removedValueSlot]. If not found, [removedValueSlot] is
+	/// Removes a value from the map in <c>mapSlot</c>, with the key from <c>keySlot</c>,
+	/// and place it in <c>removedValueSlot</c>. If not found, <c>removedValueSlot</c> is
 	/// set to null, the same behaviour as the Wren Map API.
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
 	public static extern void wrenRemoveMapValue(WrenVM vm, int mapSlot, int keySlot, int removedValueSlot);
 	
 	/// <summary>
-	/// Looks up the top level variable with [name] in resolved [module] and stores
-	/// it in [slot].
+	/// Looks up the top level variable with <c>name</c> in resolved <c>module</c> and stores
+	/// it in <c>slot</c>.
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention, CharSet = CharSet.Ansi)]
 	public static extern void wrenGetVariable(WrenVM vm, string module, string name, int slot);
 	
 	/// <summary>
-	/// Looks up the top level variable with [name] in resolved [module], 
+	/// Looks up the top level variable with <c>name</c> in resolved <c>module</c>, 
 	/// returns false if not found. The module must be imported at the time, 
 	/// use wrenHasModule to ensure that before calling.
 	/// </summary>
@@ -787,13 +802,13 @@ public static class Wren
 	public static extern bool wrenHasVariable(WrenVM vm, string module, string name);
 	
 	/// <summary>
-	/// Returns true if [module] has been imported/resolved before, false if not.
+	/// Returns true if <c>module</c> has been imported/resolved before, false if not.
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention, CharSet = CharSet.Ansi)]
 	public static extern bool wrenHasModule(WrenVM vm, string module);
 	
 	/// <summary>
-	/// Sets the current fiber to be aborted, and uses the value in [slot] as the
+	/// Sets the current fiber to be aborted, and uses the value in <c>slot</c> as the
 	/// runtime error object.
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
