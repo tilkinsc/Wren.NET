@@ -25,6 +25,7 @@
 		<RepositoryUrl>https://github.com/tilkinsc/Wren.NET</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<NoWarn>
+			CS1591, <!-- suppress missing XML doc warnings -->
 			CS8981, <!-- Only contains lowercase function names -->
 			IDE1006, <!-- Naming rule violation -->
 			CA1401, <!-- P/Invokes should not be visible -->

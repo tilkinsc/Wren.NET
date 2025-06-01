@@ -114,7 +114,7 @@ public struct WrenForeignClassMethods
 	/// foreign object's memory.
 	/// <para>
 	/// his may be `NULL` if the foreign class does not need to finalize.
-	/// <para>
+	/// </para>
 	/// </summary>
 	public WrenFinalizerFn finalize;
 }
@@ -335,7 +335,7 @@ public static class Wren
 	
 	/// <summary>
 	/// A monotonically increasing numeric representation of the version number. Use
-	// this if you want to do range checks over versions.
+	/// this if you want to do range checks over versions.
 	/// </summary>
 	public const int WREN_VERSION_NUMBER = (
 		WREN_VERSION_MAJOR * 1000000 +
@@ -631,7 +631,7 @@ public static class Wren
 	/// <para>
 	/// This will prevent the object that is referred to from being garbage collected
 	/// until the handle is released by calling [wrenReleaseHandle()].
-	/// <para>
+	/// </para>
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
 	public static extern WrenHandle wrenGetSlotHandle(WrenVM vm, int slot);
