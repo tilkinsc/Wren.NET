@@ -18,6 +18,8 @@
 		<Description>Wren.NET contains full bindings to Wren</Description>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<IncludeSymbols>true</IncludeSymbols>
+		<IncludeSource>true</IncludeSource>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<RepositoryUrl>https://github.com/tilkinsc/Wren.NET</RepositoryUrl>
