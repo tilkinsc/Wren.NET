@@ -113,8 +113,8 @@ public struct WrenForeignClassMethods
 	/// The callback invoked when the garbage collector is about to collect a
 	/// foreign object's memory.
 	/// <para>
-	/// This may be `NULL` if the foreign class does not need to finalize.
-	/// </para>
+	/// his may be `NULL` if the foreign class does not need to finalize.
+	/// <para>
 	/// </summary>
 	public WrenFinalizerFn finalize;
 }
@@ -329,7 +329,7 @@ public static class Wren
 	public const int WREN_VERSION_PATCH = 0;
 	
 	/// <summary>
-	/// // A human-friendly string representation of the version.
+	/// A human-friendly string representation of the version.
 	/// </summary>
 	public const string WREN_VERSION_STRING = "0.4.0";
 	
