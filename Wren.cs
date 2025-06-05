@@ -76,8 +76,8 @@ public struct WrenHandle : IEquatable<WrenHandle>
 public struct WrenLoadModuleResult
 {
 	[MarshalAs(UnmanagedType.LPStr)]
-	public string source;
-	public WrenLoadModuleCompleteFn onComplete;
+	public string? source;
+	public WrenLoadModuleCompleteFn? onComplete;
 	public nuint userData;
 }
 
@@ -113,10 +113,10 @@ public struct WrenForeignClassMethods
 	/// The callback invoked when the garbage collector is about to collect a
 	/// foreign object's memory.
 	/// <para>
-	/// his may be `NULL` if the foreign class does not need to finalize.
+	/// This may be `NULL` if the foreign class does not need to finalize.
 	/// </para>
 	/// </summary>
-	public WrenFinalizerFn finalize;
+	public WrenFinalizerFn? finalize;
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
@@ -126,7 +126,7 @@ public struct WrenConfiguration
 	/// The callback Wren will use to allocate, reallocate, and deallocate memory.
 	/// If `NULL`, defaults to a built-in function that uses `realloc` and `free`.
 	/// </summary>
-	public WrenReallocateFn reallocateFn;
+	public WrenReallocateFn? reallocateFn;
 	
 	/// <summary>
 	/// The callback Wren uses to resolve a module name.
@@ -159,7 +159,7 @@ public struct WrenConfiguration
 	/// above.
 	/// </para>
 	/// </summary>
-	public WrenResolveModuleFn resolveModuleFn;
+	public WrenResolveModuleFn? resolveModuleFn;
 	
 	/// <summary>
 	/// The callback Wren uses to load a module.
@@ -181,7 +181,7 @@ public struct WrenConfiguration
 	/// should return NULL and Wren will report that as a runtime error.
 	/// </para>
 	/// </summary>
-	public WrenLoadModuleFn loadModuleFn;
+	public WrenLoadModuleFn? loadModuleFn;
 	
 	/// <summary>
 	/// The callback Wren uses to find a foreign method and bind it to a class.
@@ -196,7 +196,7 @@ public struct WrenConfiguration
 	/// Wren will report it as runtime error.
 	/// </para>
 	/// </summary>
-	public WrenBindForeignMethodFn bindForeignMethodFn;
+	public WrenBindForeignMethodFn? bindForeignMethodFn;
 	
 	/// <summary>
 	/// The callback Wren uses to find a foreign class and get its foreign methods.
@@ -207,7 +207,7 @@ public struct WrenConfiguration
 	/// stored in the foreign object when an instance is created.
 	/// </para>
 	/// </summary>
-	public WrenBindForeignClassFn bindForeignClassFn;
+	public WrenBindForeignClassFn? bindForeignClassFn;
 	
 	/// <summary>
 	/// The callback Wren uses to display text when `System.print()` or the other
@@ -216,7 +216,7 @@ public struct WrenConfiguration
 	/// If this is `NULL`, Wren discards any printed text.
 	/// </para>
 	/// </summary>
-	public WrenWriteFn writeFn;
+	public WrenWriteFn? writeFn;
 	
 	/// <summary>
 	/// The callback Wren uses to report errors.
@@ -226,7 +226,7 @@ public struct WrenConfiguration
 	/// errors.
 	/// </para>
 	/// </summary>
-	public WrenErrorFn errorFn;
+	public WrenErrorFn? errorFn;
 	
 	/// <summary>
 	/// The number of bytes Wren will allocate before triggering the first garbage collection.
@@ -467,7 +467,7 @@ public static class Wren
 	/// configuration.
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
-	public static extern WrenVM wrenNewVM(WrenConfiguration configuration);
+	public static extern WrenVM wrenNewVM(WrenConfiguration? configuration);
 	
 	/// <summary>
 	/// Disposes of all resources is use by <c>vm</c>, which was previously created by a
