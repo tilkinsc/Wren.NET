@@ -13,7 +13,7 @@
 		<Title>Wren.NET</Title>
 		<Product>Wren.NET</Product>
 		<PackageIcon>Wren.NET.Logo.png</PackageIcon>
-		<PackageIconUrl>...</PackageIconUrl>
+		<PackageIconUrl>https://raw.githubusercontent.com/tilkinsc/Wren.NET/main/Wren.NET.Logo.png</PackageIconUrl>
 		<PackageTags>Wren</PackageTags>
 		<Description>Wren.NET contains full bindings to Wren</Description>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
