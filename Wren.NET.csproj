@@ -7,7 +7,7 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Nullable>enable</Nullable>
 		<PackageId>Wren.NET</PackageId>
-		<Version>1.1.0</Version>
+		<Version>1.2.0</Version>
 		<Authors>Cody Tilkins</Authors>
 		<Copyright>Copyright © Cody Tilkins 2025</Copyright>
 		<Title>Wren.NET</Title>
@@ -39,6 +39,7 @@
 		<None Include="Wren LICENSE" Pack="true" PackagePath="\" />
 		<None Include="Wren.NET.Logo.png" Pack="true" PackagePath="\" />
 		<Content Include="runtimes/win-x64/native/*" Pack="true" PackagePath="runtimes/win-x64/native" CopyToOutputDirectory="PreserveNewest" />
+		<Content Include="runtimes/linux-x64/native/*" Pack="true" PackagePath="runtimes/linux-x64/native" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 	
 </Project>
