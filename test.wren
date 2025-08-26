@@ -1,5 +1,1 @@
-
-class WrenTest
-{
-	
-}
+System.print("Hello World")
