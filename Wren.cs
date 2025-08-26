@@ -458,16 +458,33 @@ public static class Wren
 	/// </para>
 	/// </summary>
 	[DllImport(DllName, CallingConvention = Convention)]
-	public static extern void wrenInitConfiguration(WrenConfiguration configuration);
+	public static extern void wrenInitConfiguration(ref WrenConfiguration configuration);
 
+	
+	[DllImport(DllName, CallingConvention = Convention, EntryPoint = "wrenNewVM")]
+	private static extern WrenVM _wrenNewVM([In] ref WrenConfiguration configuration);
+	
+	[DllImport(DllName, CallingConvention = Convention, EntryPoint = "wrenNewVM")]
+	private static extern WrenVM _wrenNewVM(IntPtr configuration);
+	
 	/// <summary>
 	/// Creates a new Wren virtual machine using the given <c>configuration</c>. Wren
 	/// will copy the configuration data, so the argument passed to this can be
 	/// freed after calling this. If <c>configuration</c> is `NULL`, uses a default
 	/// configuration.
 	/// </summary>
-	[DllImport(DllName, CallingConvention = Convention)]
-	public static extern WrenVM wrenNewVM(WrenConfiguration? configuration);
+	public unsafe static WrenVM wrenNewVM(WrenConfiguration? configuration)
+	{
+		if (configuration.HasValue)
+		{
+			WrenConfiguration config = configuration.Value;
+			return _wrenNewVM(ref config);
+		}
+		else
+		{
+			return _wrenNewVM(IntPtr.Zero);
+		}
+	}
 	
 	/// <summary>
 	/// Disposes of all resources is use by <c>vm</c>, which was previously created by a
