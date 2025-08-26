@@ -95,7 +95,7 @@ class Program
 		MainModule = moduleName;
 		
 		WrenConfiguration config = new();
-		wrenInitConfiguration(config);
+		wrenInitConfiguration(ref config);
 		config.writeFn = WriteFn;
 		config.errorFn = ErrorFn;
 		config.loadModuleFn = LoadModuleFn;
