@@ -15,6 +15,12 @@ Notable Changes:
 * 1.0.1 - Correct native string (for non-windows users)
 * 1.0.0 - Initial Release
 
+# Usage
+
+Any delegate passed into a Wren structure must be static.
+This is because the GC will collect the delegate if it is not static.
+Otherwise, the lifetime of your delegate must be managed manually and exceed the lifetime of the WrenVM.
+
 Example Usage:
 ```cs
 using System.Text;
